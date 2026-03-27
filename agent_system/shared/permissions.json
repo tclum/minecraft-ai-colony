@@ -1,0 +1,23 @@
+{
+    "mode": "report_only",
+    "allowed_read_dirs": [
+        "bots",
+        "agent_system",
+        "docs",
+        "scripts"
+    ],
+    "allowed_write_dirs": [
+        "agent_system/shared"
+    ],
+    "blocked_write_dirs": [
+        "server",
+        "memory",
+        "logs"
+    ],
+    "require_manual_approval_for": [
+        "bots",
+        ".env",
+        "package.json",
+        "delete_operations"
+    ]
+}

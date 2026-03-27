@@ -1,0 +1,11 @@
+Current status:
+- Project structure created
+- Node.js runtime installed
+- Python orchestrator scaffold created
+- Tim bot connects successfully
+- Tim can gather wood
+- Tim uses rule-based planning
+- Pathfinder is loaded and working
+- Persistent memory save/load is set up for Tim
+- File logging is set up for Tim
+- LLM planner and review-only patch proposal are working

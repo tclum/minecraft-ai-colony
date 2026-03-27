@@ -1,0 +1,30 @@
+# Server
+server/world/
+server/world_nether/
+server/world_the_end/
+server/*.jar
+server/logs/
+server/cache/
+server/libraries/
+server/versions/
+server/plugins/oraxen-*.jar
+
+# Node
+node_modules/
+bots/node_modules/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Logs
+logs/
+*.log
+
+# Memory (runtime state)
+memory/
+
+# OS
+.DS_Store

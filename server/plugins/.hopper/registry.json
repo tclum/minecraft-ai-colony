@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "generated": "2026-03-26T23:59:01.883418Z",
+  "registrations": {
+    "CommandAPI": {
+      "requestedBy": ["Oraxen"],
+      "constraints": [
+        { "plugin": "Oraxen", "minVersion": "11.0.0", "updatePolicy": "MINOR" }
+      ],
+      "mergedConstraint": { "minVersion": "11.0.0" }
+    },
+    "PacketEvents": {
+      "requestedBy": ["Oraxen"],
+      "constraints": [
+        { "plugin": "Oraxen", "minVersion": "2.7.0", "updatePolicy": "MINOR" }
+      ],
+      "mergedConstraint": { "minVersion": "2.7.0" }
+    }
+  }
+}

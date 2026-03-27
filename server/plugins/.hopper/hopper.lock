@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "generated": "2026-03-26T23:59:01.883778Z",
+  "dependencies": {
+    "CommandAPI": {
+      "name": "CommandAPI",
+      "resolvedVersion": "11.1.0",
+      "checksum": "e19a74e5cb83b0b22df180934c633a5cd8d76425e2fe3b92983db19937281684e5b81c6582f6635af588752c24342b7f9eece8459d75b6f05b01365b252e6c63",
+      "checksumType": "SHA512",
+      "downloadUrl": "https://cdn.modrinth.com/data/ExxvCi0y/versions/jKB5ZyW7/CommandAPI-11.1.0-Paper.jar",
+      "fileName": "CommandAPI-11.1.0-Paper.jar"
+    },
+    "PacketEvents": {
+      "name": "PacketEvents",
+      "resolvedVersion": "2.11.2+spigot",
+      "checksum": "f2f8758bfc348913ca4c7a036a550872fcc43c2072d919a29fd472467057bde03e50e22512c3a01f8415d2ee4090b0966b351f5e7120fe13edf428763ae8aee4",
+      "checksumType": "SHA512",
+      "downloadUrl": "https://cdn.modrinth.com/data/HYKaKraK/versions/YjTc55NR/packetevents-spigot-2.11.2.jar",
+      "fileName": "packetevents-spigot-2.11.2.jar"
+    }
+  }
+}

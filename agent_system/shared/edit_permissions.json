@@ -1,0 +1,7 @@
+{
+    "auto_edit_allowed": [
+        "bots/agents/tim.js",
+        "bots/capabilities/gather.js",
+        "bots/capabilities/movement.js"
+    ]
+}

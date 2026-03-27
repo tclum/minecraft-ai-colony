@@ -1,0 +1,24 @@
+# Should global regions generate automatically?
+generate-global-regions: false
+
+# Should block timers continue after the server restarts?
+persistent-timers: true
+
+# ONLY MODIFY THESE IF YOU KNOW WHAT YOU'RE DOING
+advanced:
+  alternatives:
+    # Should we use an alternative method of putting items into the player's inventory?
+    # Turn on if the default method isn't working properly for you
+    auto-inventory: false
+
+  converters:
+    ultimate-regen:
+      enabled: false
+      remove-data: false
+
+    minexfarm-regen:
+      enabled: false
+      remove-data: false
+
+# NEVER MODIFY THIS
+version: 4
