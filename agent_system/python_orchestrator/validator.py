@@ -21,7 +21,7 @@ def validate_issue(issue: dict, runtime_report: str) -> dict:
             reasons.append("Type regression error still present")
 
         return {"passed": passed, "reasons": reasons}
-    
+
     if "gather to build" in title or "build after collecting enough logs" in title:
         passed = (
             "new goal: build_column (reason: enough logs collected)" in text
@@ -102,6 +102,58 @@ def validate_issue(issue: dict, runtime_report: str) -> dict:
             reasons.append("Too few visible step executions during runtime window")
         if "workerloop error:" in text:
             reasons.append("workerLoop error still present")
+
+        return {"passed": passed, "reasons": reasons}
+
+    if "combat" in title or "defense" in title or "attack" in title:
+        passed = (
+            "threat detected:" in text
+            and ("target defeated" in text or "combat result:" in text)
+            and "workerloop error:" not in text
+        )
+
+        reasons = []
+        if "threat detected:" not in text:
+            reasons.append("No threat detection logged")
+        if "target defeated" not in text and "combat result:" not in text:
+            reasons.append("No combat outcome logged")
+        if "workerloop error:" in text:
+            reasons.append("workerLoop error present during combat")
+
+        return {"passed": passed, "reasons": reasons}
+
+    if "flee" in title or "low health" in title:
+        passed = (
+            "flee result:" in text
+            and "low health" in text
+            and "workerloop error:" not in text
+        )
+
+        reasons = []
+        if "flee result:" not in text:
+            reasons.append("No flee outcome logged")
+        if "low health" not in text:
+            reasons.append("No low health trigger logged")
+
+        return {"passed": passed, "reasons": reasons}
+
+    if "prevent gather thrashing" in title or "gather enough logs" in title:
+        log_progress = any(f"current total log count: {n}" in text for n in range(1, 20))
+        build_switch = "new goal: build_column (reason: enough logs collected)" in text
+
+        passed = (
+            "post-gather inventory:" in text
+            and log_progress
+            and build_switch
+        )
+
+        reasons = []
+        if "post-gather inventory:" not in text:
+            reasons.append("Missing successful gather evidence")
+        if not log_progress:
+            reasons.append("Log count never increased above 0")
+        if not build_switch:
+            reasons.append("Missing switch to build_column after enough logs")
 
         return {"passed": passed, "reasons": reasons}
 

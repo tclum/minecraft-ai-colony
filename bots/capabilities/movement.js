@@ -9,19 +9,18 @@ function findNearbyLog(bot, maxDistance = 8) {
   });
 }
 
+function startBouncyMovement(bot) {
+  return setInterval(() => {
+    if (Math.random() < 0.35) {
+      bot.setControlState("jump", true);
+      setTimeout(() => bot.setControlState("jump", false), 200);
+    }
+  }, 600);
+}
+
 async function explore(bot, radius = 22) {
   const unreachableTargets = new Set();
-
-  function startBouncyMovement(bot) {
-    const interval = setInterval(() => {
-      if (Math.random() < 0.35) {
-        bot.setControlState("jump", true);
-        setTimeout(() => bot.setControlState("jump", false), 200);
-      }
-    }, 600);
-
-    return interval;
-  }
+  let bounce = null;
 
   for (let attempt = 0; attempt < 10; attempt++) {
     const pos = bot.entity.position;
@@ -32,10 +31,7 @@ async function explore(bot, radius = 22) {
       console.log(
         `[${bot.username}] Wood spotted during explore at ${nearbyLogBeforeMove.position.x}, ${nearbyLogBeforeMove.position.y}, ${nearbyLogBeforeMove.position.z}`,
       );
-      return {
-        success: true,
-        reason: "wood_spotted",
-      };
+      return { success: true, reason: "wood_spotted" };
     }
 
     let targetX, targetY, targetZ, targetKey;
@@ -51,8 +47,10 @@ async function explore(bot, radius = 22) {
     );
 
     try {
-      const bounce = startBouncyMovement(bot);
+      bounce = startBouncyMovement(bot);
       await bot.pathfinder.goto(new GoalNear(targetX, targetY, targetZ, 2));
+      clearInterval(bounce);
+      bot.setControlState("jump", false);
       await sleep(500);
 
       const nearbyLogAfterMove = findNearbyLog(bot, 8);
@@ -61,21 +59,17 @@ async function explore(bot, radius = 22) {
         console.log(
           `[${bot.username}] Wood spotted during explore at ${nearbyLogAfterMove.position.x}, ${nearbyLogAfterMove.position.y}, ${nearbyLogAfterMove.position.z}`,
         );
-        return {
-          success: true,
-          reason: "wood_spotted",
-        };
+        return { success: true, reason: "wood_spotted" };
       }
 
       console.log(
         `[${bot.username}] Explore step succeeded at target ${targetX}, ${targetY}, ${targetZ}`,
       );
       console.log(`[${bot.username}] Completed explore successfully`);
-      return {
-        success: true,
-        reason: "explore_complete",
-      };
+      return { success: true, reason: "explore_complete" };
     } catch (e) {
+      clearInterval(bounce);
+      bot.setControlState("jump", false);
       const errMsg = e?.message || String(e);
       console.log(
         `[${bot.username}] Explore step failed: pathfinding_failed (${errMsg})`,
@@ -89,8 +83,6 @@ async function explore(bot, radius = 22) {
     reason: "pathfinding_failed",
     error: "No path to any explore target after 10 attempts",
   };
-  clearInterval(bounce);
-  bot.setControlState("jump", false);
 }
 
 module.exports = { explore };
