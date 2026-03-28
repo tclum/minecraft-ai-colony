@@ -1,23 +1,17 @@
-Issue: prevent gather thrashing on unreachable wood and gather enough logs to build
+Issue: Implement build_small_structure capability to construct a simple 3x3x3 wooden structure
 
 Success criteria:
-
-- Tim does not repeatedly switch between explore and gather without making progress
-- gatherWood succeeds at least once during the runtime window
-- runtime shows current total log count increasing above 0
-- Tim continues gathering until total log count reaches the build threshold
-- runtime shows a goal switch to build_column after enough logs are collected
+- Tim logs "Starting build_small_structure capability" when the capability begins
+- Tim logs "Structure complete: placed X blocks" where X is between 20-27 blocks
+- Tim logs "build_small_structure capability finished successfully" upon completion
 
 Editable files:
-
-- bots/capabilities/movement.js
+- bots/capabilities/build.js
 - bots/agents/tim.js
-- bots/capabilities/gather.js
+- bots/planners/rule_planner.js
 
 Max attempts:
-
-- 6
+- 5
 
 Runtime seconds:
-
-- 30
+- 180

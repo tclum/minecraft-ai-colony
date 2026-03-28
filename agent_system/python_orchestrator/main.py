@@ -233,6 +233,30 @@ def main():
             "patch_applied",
             [f"Patched files: {[item['path'] for item in patch_data.get('files', [])]}"]
         )
+        
+        if validation["passed"]:
+            print(f"[bold green]✅ Capability '{next_capability}' successfully implemented![/bold green]")
+
+            registry = mark_capability_stable(
+                registry,
+                next_capability,
+                f"Implemented by autonomous agent on {datetime.now().strftime('%Y-%m-%d')}"
+            )
+            save_registry(registry)
+            consecutive_failures = 0
+
+            # Restart Tim to pick up the new code
+            restart_tim()
+
+        # Alert on milestones
+        if next_capability in MILESTONE_CAPABILITIES:
+            write_alert(
+                f"🏆 Major Milestone: {next_capability}",
+                f"Tim has successfully implemented '{next_capability}'.\n"
+                f"Total stable capabilities: {len(registry['capabilities'])}\n"
+                f"Tim has been automatically restarted with the new code.\n"
+                f"Completed on: {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+            )
 
         report_after, _ = run_snapshot(context, backlog, permissions, runtime_seconds)
         validation_after = validate_issue(issue, report_after)

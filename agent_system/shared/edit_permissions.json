@@ -2,6 +2,9 @@
     "auto_edit_allowed": [
         "bots/agents/tim.js",
         "bots/capabilities/gather.js",
-        "bots/capabilities/movement.js"
+        "bots/capabilities/movement.js",
+        "bots/capabilities/build.js",
+        "bots/capabilities/combat.js",
+        "bots/planners/rule_planner.js"
     ]
 }

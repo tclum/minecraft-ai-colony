@@ -1,0 +1,43 @@
+{
+  "capabilities": [
+    {
+      "id": "explore",
+      "status": "stable",
+      "added": "2026-03-27",
+      "description": "Explores nearby area"
+    },
+    {
+      "id": "gather_wood",
+      "status": "stable",
+      "added": "2026-03-27",
+      "description": "Finds and chops logs"
+    },
+    {
+      "id": "build_column",
+      "status": "stable",
+      "added": "2026-03-27",
+      "description": "Builds vertical column"
+    },
+    {
+      "id": "combat",
+      "status": "stable",
+      "added": "2026-03-27",
+      "description": "Attacks hostile mobs"
+    },
+    {
+      "id": "gather_multiple_logs",
+      "status": "stable",
+      "added": "2026-03-27",
+      "description": "Skipped after 3 failures on 2026-03-27 \u2014 needs manual review"
+    }
+  ],
+  "roadmap": [
+    "gather_multiple_logs",
+    "build_small_structure",
+    "patrol_area",
+    "avoid_edges",
+    "look_at_player",
+    "craft_planks_from_logs",
+    "craft_wooden_pickaxe"
+  ]
+}

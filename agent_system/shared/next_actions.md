@@ -1,14 +1,14 @@
 # Next Actions
 
-Generated: 2026-03-25T16:10:53.975749
+Generated: 2026-03-27T17:33:27.367408
 
 ## Priority Execution Order
-1. Define and implement safe startup goal reset and memory sanitization on spawn.
+1. No concrete approved actions available yet.
 
 ## Secondary / Review Queue
-- bots/agents/tim.js
-- bots/capabilities/gather.js
-- Implement robust reconnect logic for Tim so it auto recovers from connection resets.
+- bots/agents/tim.js:
+- Add logic on startup/spawn to reset memory goal state and stuckCount.
+- Add code to detect and remove stale lockfile (/tmp/tim.lock) before bot.createBot call or at startup to avoid immediate "already running" error and enable reliable start.
 
 ## Notes
 - Execute approved actions first.

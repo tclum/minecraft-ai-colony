@@ -53,23 +53,13 @@ saveMemory(memory);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function getLogCount(inventorySnapshot = {}) {
-  if (
-    !inventorySnapshot ||
-    typeof inventorySnapshot !== "object" ||
-    Array.isArray(inventorySnapshot)
-  ) {
+function getLogCount(inventorySnapshot = []) {
+  if (!Array.isArray(inventorySnapshot)) {
     return 0;
   }
-
-  return Object.entries(inventorySnapshot)
-    .filter(
-      ([name, count]) =>
-        typeof name === "string" &&
-        name.endsWith("_log") &&
-        typeof count === "number",
-    )
-    .reduce((sum, [, count]) => sum + count, 0);
+  return inventorySnapshot
+    .filter((item) => item.name && item.name.endsWith("_log") && typeof item.count === "number")
+    .reduce((sum, item) => sum + item.count, 0);
 }
 
 function safeInventorySnapshot() {
@@ -158,6 +148,7 @@ async function executeStep(step) {
     if (!result?.success) {
       memory.stuckCount = (memory.stuckCount || 0) + 1;
 
+      // Structured gather failure warning logs
       if (result.reason === "no_logs_found") {
         logger.warn("Gather step failed: no_logs_found");
       } else if (result.reason === "pathfinding_failed") {
@@ -183,6 +174,10 @@ async function executeStep(step) {
         memory.stuckCount = 0;
         startGoal(memory, { type: "scout_area", radius: 10 });
         logger.info("New goal: scout_area (reason: stuck in gather loop)");
+      } else if (result.reason === "pathfinding_failed") {
+        // Add explicit logging about replanning
+        startGoal(memory, { type: "scout_area", radius: 12 });
+        logger.info("New goal: scout_area (reason: gather pathfinding failed)");
       } else {
         startGoal(memory, { type: "scout_area", radius: 8 });
         logger.info("New goal: scout_area (reason: gather failed)");
@@ -259,14 +254,14 @@ async function workerLoop() {
 
   while (true) {
     try {
-      // PRIORITY 1: threat check — interrupts everything
+      // PRIORITY 1: threat check 1 interrupts everything
       const threat = getNearestHostile(bot, 16);
       if (threat) {
         const health = bot.health ?? 20;
 
         if (health <= FLEE_HEALTH_THRESHOLD) {
-          // Low health — flee first
-          logger.info(`Low health (${health}/20) + threat detected — fleeing`);
+          // Low health 1 flee first
+          logger.info(`Low health (${health}/20) + threat detected 1 fleeing`);
           const prevGoal = memory.currentGoal;
           memory.currentGoal = null;
           startGoal(memory, { type: "flee" });
@@ -279,9 +274,9 @@ async function workerLoop() {
           memory.goalStatus = prevGoal ? "active" : "idle";
           saveMemory(memory);
         } else {
-          // Healthy — fight back
+          // Healthy 1 fight back
           logger.info(
-            `Threat detected: ${threat.name} (health: ${health}/20) — attacking`,
+            `Threat detected: ${threat.name} (health: ${health}/20) 1 attacking`,
           );
           const prevGoal = memory.currentGoal;
           memory.currentGoal = null;
@@ -299,8 +294,8 @@ async function workerLoop() {
         await sleep(500);
         continue;
       }
-      const obs = observeBot(bot);
-      updateMemoryFromObservation(memory, obs);
+      // FIXED  always refresh before making goal decisions
+      refreshMemoryFromLiveBot();
       saveMemory(memory);
 
       const totalLogs = getLogCount(memory.inventorySnapshot);
@@ -318,17 +313,13 @@ async function workerLoop() {
           memory.currentGoal = null;
           startGoal(memory, { type: "scout_area", radius: 8 });
           logger.info("New goal: scout_area (reason: previous goal failed)");
-        } else if (totalLogs < 5) {
+        } else if (totalLogs < 3) {
           memory.currentGoal = null;
           startGoal(memory, { type: "collect_wood" });
-          logger.info("New goal: collect_wood (reason: fewer than 5 logs)");
+          logger.info("New goal: collect_wood (reason: fewer than 3 logs)");
         } else {
           memory.currentGoal = null;
-          startGoal(memory, {
-            type: "build_column",
-            height: 3,
-            block: "dirt",
-          });
+          startGoal(memory, { type: "build_column", height: 3, block: "dirt" });
           logger.info("New goal: build_column (reason: enough logs collected)");
         }
         saveMemory(memory);
@@ -380,7 +371,7 @@ bot.on("death", () => {
 
 bot.on("health", () => {
   if (bot.health <= 4) {
-    logger.warn(`Critical health: ${bot.health}/20 — will flee on next tick`);
+    logger.warn(`Critical health: ${bot.health}/20 1 will flee on next tick`);
   }
 });
 

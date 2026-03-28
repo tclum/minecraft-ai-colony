@@ -1,6 +1,6 @@
 # Agentic Dev System Report
 
-Generated: 2026-03-25T16:10:36.311342
+Generated: 2026-03-27T17:33:12.918745
 
 ## Current Goal
 Current goal:
@@ -18,8 +18,8 @@ Constraints:
 - No multi-agent features yet
 
 ## System Health
-- Run status: PASS
-- Return code: 0
+- Run status: FAIL
+- Return code: 1
 
 ## Project Summary
 Current status:
@@ -43,32 +43,10 @@ Known issues:
 
 ## Runtime Output
 STDOUT:
-[dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
-[2026-03-26T02:10:18.274Z] [Tim] [INFO] Connected and spawned
-[2026-03-26T02:10:18.279Z] [Tim] [INFO] Worker loop starting...
-[2026-03-26T02:10:19.780Z] [Tim] [INFO] Inventory snapshot: {}
-[2026-03-26T02:10:19.780Z] [Tim] [INFO] Current total log count: 0
-[2026-03-26T02:10:19.780Z] [Tim] [INFO] New goal: collect_wood (reason: fewer than 5 logs)
-[2026-03-26T02:10:19.780Z] [Tim] [INFO] Next step chosen: {"type":"gatherWood"}
-[2026-03-26T02:10:19.780Z] [Tim] [INFO] Executing step: {"type":"gatherWood"}
-[2026-03-26T02:10:19.781Z] [Tim] [INFO] Gather step starting
-[Tim] Found wood at -9, 69, 8
-Error: read ECONNRESET
-    at TCP.onStreamRead (node:internal/stream_base_commons:216:20) {
-  errno: -54,
-  code: 'ECONNRESET',
-  syscall: 'read'
-}
-[2026-03-26T02:10:23.146Z] [Tim] [ERROR] Bot error: read ECONNRESET
-[2026-03-26T02:10:23.147Z] [Tim] [WARN] Disconnected
-[2026-03-26T02:10:34.790Z] [Tim] [INFO] Gather step finished in 15009ms
-[2026-03-26T02:10:34.790Z] [Tim] [WARN] Gather step failed: pathfinding_failed (pathfinding_timeout)
-[2026-03-26T02:10:34.791Z] [Tim] [INFO] New goal: scout_area (reason: gather failed)
-[2026-03-26T02:10:36.292Z] [Tim] [INFO] Inventory snapshot: {}
-[2026-03-26T02:10:36.292Z] [Tim] [INFO] Current total log count: 0
-[2026-03-26T02:10:36.292Z] [Tim] [INFO] Next step chosen: {"type":"explore","radius":6}
-[2026-03-26T02:10:36.292Z] [Tim] [INFO] Executing step: {"type":"explore","radius":6}
-[Tim] Exploring toward -15, 61, 5 (attempt 1/10)
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+
+STDERR:
+Tim is already running! Delete /tmp/tim.lock if this is wrong.
 
 ## Backlog
 - Add persistent memory save/load for Tim
